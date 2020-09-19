@@ -1,17 +1,88 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
-//git testi
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const Header = (props) => {
+    return (
+        <div>
+            <h1>{props.name}</h1>
+        </div>
+    )
+}
+
+/*
+const Part = (props) => {
+    return (
+        <div>
+            <p>{props.part} {props.exercises}</p>
+        </div>
+    )
+}*/
+
+const Content = (props) => {
+  const {parts} = props
+  return (
+      <div>
+        {parts.map(part => <p key={part.id}>{part.name} {part.exercises}</p>)}
+      </div>
+  )
+}
+
+const Total = (props) => {
+    const {parts} = props
+    var total = 0
+    for (var i of parts) {
+      total += i.exercises
+    }
+    return (
+      <div>
+        <p><b>total of {total} exercises</b></p>
+      </div>
+  )
+}
+
+const Course = (props) => {
+  return (
+    <div>
+      <Header name={props.course.name} />
+      <Content parts={props.course.parts}/>
+      <Total parts={props.course.parts}/>
+    </div>
+  )
+}
+
+const App = () => {
+    const course = {
+        name: 'Half Stack application development',
+        id: 1,
+        parts: [
+            {
+                name: 'Fundamentals of React',
+                exercises: 10,
+                id: 1
+            },
+            {
+                name: 'Using props to pass data',
+                exercises: 7,
+                id: 2
+            },
+            {
+                name: 'State of a component',
+                exercises: 14,
+                id: 3
+            },
+            {
+                name: 'Redux',
+                exercises: 11,
+                id: 4
+            }
+        ]
+    }
+
+    return (
+        <div>
+            <Course course={course} />
+        </div>
+    )
+}
+
+ReactDOM.render(<App />, document.getElementById('root'))
